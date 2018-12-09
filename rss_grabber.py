@@ -1,6 +1,6 @@
 import sys
+from urllib.parse import urlparse
 
-import tldextract
 import feedparser
 
 
@@ -35,14 +35,18 @@ def load_feeds(filename):
                 yield line
 
 
+def extract_tld(url):
+    return urlparse(url).netloc.split('.')[-2]
+
+
 thismodule = sys.modules[__name__]
 
 rss_feeds_url = load_feeds(RSS_FEEDS_SOURCE)
 
-subclasses_name = [
-    (tldextract.extract(url).domain.capitalize(), url)
+subclasses_names = [
+    (extract_tld(url).capitalize(), url)
     for url in rss_feeds_url
 ]
 
-for name, rss_url in subclasses_name:
+for name, rss_url in subclasses_names:
     setattr(thismodule, name, type(name, (Feed,), {'url': rss_url}))
