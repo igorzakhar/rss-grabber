@@ -39,8 +39,6 @@ def extract_tld(url):
     return urlparse(url).netloc.split('.')[-2]
 
 
-thismodule = sys.modules[__name__]
-
 rss_feeds_url = load_feeds(RSS_FEEDS_SOURCE)
 
 subclasses_names = [
@@ -49,4 +47,5 @@ subclasses_names = [
 ]
 
 for name, rss_url in subclasses_names:
-    setattr(thismodule, name, type(name, (Feed,), {'url': rss_url}))
+    Class = type(name, (Feed,), {'url': rss_url})
+    setattr(sys.modules[__name__], name, Class)
