@@ -13,8 +13,13 @@ class Feed:
 
     def news(self, limit=None):
         feed_entries = feedparser.parse(self.url)['entries'][:limit]
+        oldkey, newkey = 'summary', 'desc'
         news = [
-            {k: v for k, v in d.items() if k in self._keys_entry}
+            {
+                newkey if k == oldkey else k: v
+                for k, v in d.items()
+                if k in self._keys_entry
+            }
             for d in feed_entries
         ]
 
