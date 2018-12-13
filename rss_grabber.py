@@ -1,7 +1,9 @@
 import sys
 from urllib.parse import urlparse
 
+from bs4 import BeautifulSoup
 import feedparser
+import requests
 
 
 RSS_FEEDS_SOURCE = 'rss_feeds.txt'
@@ -26,8 +28,29 @@ class Feed:
 
         return news
 
-    def grub(self):
-        pass
+    def grub(self, link):
+        article_content = {}
+        feed_entry = next(
+            entry for entry in self._feed_entries
+            if entry.link == link
+        )
+        article_content['title'] = feed_entry.title
+        for entry in feed_entry.links:
+            if entry.get('type', None).startswith('image'):
+                article_content['image'] = entry.href
+            else:
+                article_content['image'] = ''
+
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, 'lxml')
+        paragraphs = [
+            para.text
+            for para in soup.find_all('p')
+            if para.text != ''
+        ]
+        article_content['content'] = paragraphs
+
+        return article_content
 
 
 def load_feeds(filename):
