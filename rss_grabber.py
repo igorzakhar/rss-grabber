@@ -9,18 +9,19 @@ RSS_FEEDS_SOURCE = 'rss_feeds.txt'
 
 class Feed:
     url = ''
-    _keys_entry = ('title', 'link', 'summary', 'published')
+
+    def __init__(self):
+        self._feed_entries = feedparser.parse(self.url)['entries']
 
     def news(self, limit=None):
-        feed_entries = feedparser.parse(self.url)['entries'][:limit]
         oldkey, newkey = 'summary', 'desc'
         news = [
             {
                 newkey if k == oldkey else k: v
                 for k, v in d.items()
-                if k in self._keys_entry
+                if k in ('title', 'link', 'summary', 'published')
             }
-            for d in feed_entries
+            for d in self._feed_entries[:limit]
         ]
 
         return news
