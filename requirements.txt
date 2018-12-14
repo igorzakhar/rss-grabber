@@ -1,4 +1,2 @@
-jusText==2.2.0
+goose3==3.1.6
 feedparser==5.2.1
-lxml==4.2.5
-requests==2.21.0

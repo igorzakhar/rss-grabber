@@ -1,12 +1,16 @@
 import sys
 from urllib.parse import urlparse
 
+from goose3 import Goose
 import feedparser
-import justext
-import requests
 
 
 RSS_FEEDS_SOURCE = 'rss_feeds.txt'
+GOOSE_CONFIG = {
+    'use_meta_language': False,
+    'target_language': 'ru',
+    'enable_image_fetching': True
+}
 
 
 class Feed:
@@ -14,6 +18,7 @@ class Feed:
 
     def __init__(self):
         self._feed_entries = feedparser.parse(self.url)['entries']
+        self._goose = Goose(GOOSE_CONFIG)
 
     def news(self, limit=None):
         oldkey, newkey = 'summary', 'desc'
@@ -30,26 +35,15 @@ class Feed:
 
     def grub(self, link):
         article_content = {}
-        feed_entry = next(
-            entry for entry in self._feed_entries
-            if entry.link == link
-        )
-        article_content['title'] = feed_entry.title
-        for entry in feed_entry.links:
-            if entry.get('type', None).startswith('image'):
-                article_content['image'] = entry.href
-            else:
-                article_content['image'] = ''
+        article = self._goose.extract(url=link)
+        article_content['title'] = article.title
 
-        page = requests.get(link)
-        language = justext.get_stoplist("Russian")
-        justext_objects = justext.justext(page.content, language)
-        paragraphs = [
-            paragraph
-            for paragraph in justext_objects
-            if not paragraph.is_boilerplate
-        ]
-        article_content['content'] = paragraphs
+        if article.top_image:
+            article_content['image'] = article.top_image.src
+        else:
+            article_content['image'] = ''
+
+        article_content['content'] = article.cleaned_text.split('\n\n')
 
         return article_content
 
