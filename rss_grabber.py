@@ -59,14 +59,14 @@ def load_feeds(filename):
                 yield line
 
 
-def extract_tld(url):
+def extract_2level_domain(url):
     return urlparse(url).netloc.split('.')[-2]
 
 
 rss_feeds_url = load_feeds(RSS_FEEDS_SOURCE)
 
 subclasses_names = [
-    (extract_tld(url).capitalize(), url)
+    (extract_2level_domain(url).capitalize(), url)
     for url in rss_feeds_url
 ]
 
