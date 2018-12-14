@@ -1,4 +1,4 @@
-http://lenta.ru/rss
-http://www.interfax.ru/rss.asp
-http://www.kommersant.ru/RSS/news.xml
-http://www.m24.ru/rss.xml
+https://lenta.ru/rss
+https://www.interfax.ru/rss.asp
+https://www.kommersant.ru/RSS/news.xml
+https://www.m24.ru/rss.xml
