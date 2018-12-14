@@ -1,8 +1,8 @@
 import sys
 from urllib.parse import urlparse
 
-from bs4 import BeautifulSoup
 import feedparser
+import justext
 import requests
 
 
@@ -42,11 +42,12 @@ class Feed:
                 article_content['image'] = ''
 
         page = requests.get(link)
-        soup = BeautifulSoup(page.content, 'lxml')
+        language = justext.get_stoplist("Russian")
+        justext_objects = justext.justext(page.content, language)
         paragraphs = [
-            para.text
-            for para in soup.find_all('p')
-            if para.text != ''
+            paragraph
+            for paragraph in justext_objects
+            if not paragraph.is_boilerplate
         ]
         article_content['content'] = paragraphs
 
