@@ -18,7 +18,7 @@ class Feed:
 
     def __init__(self):
         self._feed_entries = feedparser.parse(self.url)['entries']
-        self._goose = Goose(GOOSE_CONFIG)
+        self._extractor = Goose(GOOSE_CONFIG)
 
     def news(self, limit=None):
         oldkey, newkey = 'summary', 'desc'
@@ -35,7 +35,7 @@ class Feed:
 
     def grub(self, link):
         article_content = {}
-        article = self._goose.extract(url=link)
+        article = self._extractor.extract(url=link)
         article_content['title'] = article.title
 
         if article.top_image:
