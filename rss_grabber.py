@@ -1,4 +1,5 @@
 import sys
+import time
 from urllib.parse import urlparse
 
 from goose3 import Goose
@@ -24,13 +25,16 @@ class Feed:
         oldkey, newkey = 'summary', 'desc'
         news = [
             {
-                newkey if k == oldkey else k: v
-                for k, v in d.items()
-                if k in ('title', 'link', 'summary', 'published')
+                (newkey if key == oldkey else key) or
+                key: (
+                    time.strftime('%d.%m.%Y %H:%M', entry['published_parsed'])
+                    if key == 'published' else value
+                )
+                for key, value in entry.items()
+                if key in ('title', 'link', 'summary', 'published')
             }
-            for d in self._feed_entries[:limit]
+            for entry in self._feed_entries
         ]
-
         return news
 
     def grub(self, link):
@@ -48,6 +52,10 @@ class Feed:
         return article_content
 
 
+def extract_2level_domain(url):
+    return urlparse(url).netloc.split('.')[-2]
+
+
 def load_feeds(filename):
     with open(filename, 'r') as fp:
         while True:
@@ -57,10 +65,6 @@ def load_feeds(filename):
                 break
             else:
                 yield line
-
-
-def extract_2level_domain(url):
-    return urlparse(url).netloc.split('.')[-2]
 
 
 rss_feeds_url = load_feeds(RSS_FEEDS_SOURCE)
