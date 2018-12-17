@@ -33,10 +33,18 @@ https://www.interfax.ru/rss.asp
 ## Установка
 
 Для использования модуля потртребуется предустановленный Python 3.5 (на других версиях не проверялся).  
-Используйте команду pip для установки сторонних библиотек из файла зависимостей (или pip3 если есть конфликт с предустановленным Python 2):
+1. Скопируйте файлы ```rss_grabber.py``` и ```rss_feeds.txt``` в каталог с вашим проектом.
+
+2. Создайте и активируйте виртуально окружение, например:
+```
+$ python3 -m venv my_virtual_environment
+$ source my_virtual_environment/bin/activate
+```
+3. Установите сторонние библиотеки  из файла зависимостей:
 ```
 pip install -r requirements.txt # В качестве альтернативы используйте pip3
 ```
+
 Рекомендуется устанавливать зависимости в виртуальном окружении, используя [virtualenv](https://github.com/pypa/virtualenv), [virtualenvwrapper](https://pypi.python.org/pypi/virtualenvwrapper) или [venv](https://docs.python.org/3/library/venv.html).
 
 В программе используются следующие сторонние библиотеки:  
