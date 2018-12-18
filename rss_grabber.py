@@ -33,7 +33,7 @@ class Feed:
                 for key, value in entry.items()
                 if key in ('title', 'link', 'summary', 'published')
             }
-            for entry in self._feed_entries
+            for entry in self._feed_entries[:limit]
         ]
         return news
 
