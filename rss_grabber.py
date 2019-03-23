@@ -69,7 +69,7 @@ def add_feed(rss_url, name=''):
     if name == '':
         name = extract_2level_domain(rss_url).capitalize()
     Class = type(name, (Feed,), {'url': rss_url})
-    setattr(sys.modules[__name__], name, Class)
+    setattr(sys.modules['__main__'], name, Class)
 
 
 def load_feeds_from_file(filename):
@@ -81,6 +81,6 @@ def load_feeds_from_file(filename):
         ]
         for name, rss_url in subclasses_names:
             Class = type(name, (Feed,), {'url': rss_url})
-            setattr(sys.modules[__name__], name, Class)
+            setattr(sys.modules['__main__'], name, Class)
     except OSError as error:
         raise error
