@@ -40,7 +40,7 @@ https://www.m24.ru/rss.xml
 
 ## Установка
 
-Для использования модуля потртребуется предустановленный Python 3.5 (на других версиях не проверялся).
+Для использования модуля потртребуется предустановленный Python >= 3.5 (на других версиях не проверялся).
 1. Скопируйте файл ```rss_grabber.py``` в каталог с вашим проектом.
 
 2. Создайте и активируйте виртуально окружение, например:
@@ -72,14 +72,14 @@ https://www.interfax.ru/rss.asp
 ```
 После загрузки доступ к rss каналам можно получить следующим образом:
 ```python
->>> lenta = rss_grabber.Lenta()
->>> interfax = rss_grabber.Interfax() 
+>>> lenta = Lenta()
+>>> interfax = Interfax() 
 ```
 
 Добавление rss канала с использованием url-адреса:
 ```python
 >>> rss_grabber.add_feed('https://www.kommersant.ru/RSS/news.xml')
->>> kommers = rss_grabber.Kommersant()
+>>> kommers = Kommersant()
 >>> news = kommers.news(limit=1)
 >>> print(news)
 [{'link': 'https://www.kommersant.ru/doc/3922653', 
@@ -89,7 +89,7 @@ https://www.interfax.ru/rss.asp
 ```
 Получение списка свежих статей из rss-канала заданного источника:
 ```python
->>> lenta = rss_grabber.Lenta()
+>>> lenta = Lenta()
 >>> news = lenta.news(limit=3)
 >>> print(news)
 [{
