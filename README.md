@@ -5,10 +5,10 @@
 ### Задача:
 Необходимо реализовать граббер статей с новостных сайтов:
 
-&nbsp;&nbsp;&nbsp;&nbsp;[https://lenta.ru/rss](http://lenta.ru/rss)
-&nbsp;&nbsp;&nbsp;&nbsp;[https://www.interfax.ru/rss.asp](http://www.interfax.ru/rss.asp)
-&nbsp;&nbsp;&nbsp;&nbsp;[https://www.kommersant.ru/RSS/news.xml](http://www.kommersant.ru/RSS/news.xml)
-&nbsp;&nbsp;&nbsp;&nbsp;[https://www.m24.ru/rss.xml](http://www.m24.ru/rss.xml)
+- [https://lenta.ru/rss](http://lenta.ru/rss)
+- [https://www.interfax.ru/rss.asp](http://www.interfax.ru/rss.asp)
+- [https://www.kommersant.ru/RSS/news.xml](http://www.kommersant.ru/RSS/news.xml)
+- [https://www.m24.ru/rss.xml](http://www.m24.ru/rss.xml)
 
 ### Базовый функционал:
 - Получение списка свежих статей из rss-канала заданного источника. Каждый
