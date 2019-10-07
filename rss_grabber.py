@@ -76,6 +76,7 @@ def add_feed(rss_url, name=''):
         name = extract_2level_domain(rss_url).capitalize()
     Class = type(name, (Feed,), {'url': rss_url})
     setattr(sys.modules['__main__'], name, Class)
+    return Class
 
 
 def load_feeds_from_file(filename):
