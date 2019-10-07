@@ -17,8 +17,13 @@ class Feed:
     url = ''
 
     def __init__(self):
-        self._feed_entries = feedparser.parse(self.url)['entries']
+        self._feed_entries = self._get_feed_entries()
         self._article_extractor = Goose(GOOSE_CONFIG)
+
+    def _get_feed_entries(self):
+        feed = feedparser.parse(self.url)
+        entries = feed.get('entries')
+        return entries
 
     def news(self, limit=None):
         oldkey, newkey = 'summary', 'desc'
@@ -64,6 +69,7 @@ def load_urls_feeds(filename):
                 break
             else:
                 yield line
+
 
 def add_feed(rss_url, name=''):
     if name == '':
