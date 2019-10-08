@@ -18,12 +18,16 @@ class Feed:
 
     def __init__(self):
         self._feed_entries = self._get_feed_entries()
-        self._article_extractor = Goose(GOOSE_CONFIG)
 
     def _get_feed_entries(self):
         feed = feedparser.parse(self.url)
         entries = feed.get('entries')
         return entries
+
+    def _extract_article(self, link):
+        article_extractor = Goose(GOOSE_CONFIG)
+        article = article_extractor.extract(url=link)
+        return article
 
     def news(self, limit=None):
         oldkey, newkey = 'summary', 'desc'
@@ -31,7 +35,10 @@ class Feed:
             {
                 (newkey if key == oldkey else key) or
                 key: (
-                    time.strftime('%d.%m.%Y %H:%M', entry['published_parsed'])
+                    time.strftime(
+                        '%d.%m.%Y %H:%M',
+                        tuple(entry['published_parsed'])
+                    )
                     if key == 'published' else value
                 )
                 for key, value in entry.items()
@@ -43,7 +50,7 @@ class Feed:
 
     def grub(self, link):
         article_content = {}
-        article = self._article_extractor.extract(url=link)
+        article = self._extract_article(link)
         article_content['title'] = article.title
 
         if article.top_image:
