@@ -16,9 +16,6 @@ GOOSE_CONFIG = {
 class Feed:
     url = ''
 
-    def __init__(self):
-        self._feed_entries = self._get_feed_entries()
-
     def _get_feed_entries(self):
         feed = feedparser.parse(self.url)
         entries = feed.get('entries')
@@ -45,7 +42,7 @@ class Feed:
                 for key, value in entry.items()
                 if key in ('title', 'link', 'summary', 'published')
             }
-            for entry in self._feed_entries[:limit]
+            for entry in self._get_feed_entries()[:limit]
         ]
         return news
 
