@@ -1,5 +1,5 @@
 import sys
-import time
+from datetime import datetime
 from urllib.parse import urlparse
 
 from goose3 import Goose
@@ -35,9 +35,10 @@ class Feed:
             {
                 (newkey if key == oldkey else key) or
                 key: (
-                    time.strftime(
-                        '%d.%m.%Y %H:%M',
-                        tuple(entry['published_parsed'])
+                    datetime.strptime(
+                        entry['published'], '%a, %d %b %Y %H:%M:%S %z'
+                    ).strftime(
+                        '%d.%m.%Y %H:%M'
                     )
                     if key == 'published' else value
                 )
